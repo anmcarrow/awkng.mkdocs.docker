@@ -1,0 +1,66 @@
+.wy-side-nav-search {
+    background-color: #280c09;;
+}
+
+.wy-side-nav-search input[type=text] {
+    border-color: #4f2f2e;
+}
+
+.wy-nav-side {
+    background: #160b0a;
+}
+
+.wy-nav-top {
+    background: #280c09;
+}
+
+.wy-nav-top a {
+    color: #fff;
+}
+
+.wy-nav-top a:visited {
+    color: #fff;
+}
+
+.wy-side-nav-search>a, .wy-side-nav-search .wy-dropdown>a {
+    color: #fcfcfc;
+}
+
+.wy-side-nav-search>a:visited, .wy-side-nav-search .wy-dropdown>a:visited {
+    color: #fcfcfc;
+}
+
+.wy-menu-vertical a {
+    color: #b49190;
+}
+
+.wy-menu-vertical a:visited {
+    color: #96706f;
+}
+
+.wy-menu-vertical li.current a {
+    color: #280c09;
+}
+
+.rst-versions {
+    background: #280c09;
+    border-top: solid 10px #321413;
+}
+
+.rst-versions .rst-current-version {
+    background-color: #280c09;
+}
+
+a {
+    color: #280c09;
+}
+
+a:hover {
+    color: #8d4b4a;
+}
+
+a:visited {
+    color: #725857;
+}
+
+

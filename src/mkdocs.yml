@@ -1,0 +1,14 @@
+site_name: Awakening TTRPG Web-SRD
+
+plugins:
+    - search:
+        separator: '[\s\-\.]+'
+        lang: ru
+#    - mkpdfs
+
+theme:
+  name: readthedocs
+  custom_dir: css/
+
+extra_css:
+   - dead_urals.css
