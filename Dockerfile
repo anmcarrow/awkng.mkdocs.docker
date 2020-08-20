@@ -1,4 +1,3 @@
-# Builds images for 781127743430.dkr.ecr.us-east-1.amazonaws.com/infra/syslog-logstash-forwarder
 FROM debian:stable-slim
 
 RUN apt-get update && \
@@ -10,14 +9,33 @@ RUN apt-get update && \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
     && \
+    apt-get remove -yq \
+       build-essential \
+       gcc gcc-8 cpp cpp-8 \
+       libgcc-8-dev dpkg-dev \
+       libc-dev-bin libc6-dev \
+       libexpat1-dev \ 
+       libgcc-8-dev \ 
+       libpython3-dev \
+       libpython3.7-dev \ 
+       libstdc++-8-dev \ 
+       linux-libc-dev \ 
+       manpages-dev \ 
+       python3-dev \ 
+       python3.7-dev \
+       manpages \ 
+       manpages-dev \
+    && \
+    rm -rf /root/.cache \
+    && \
     rm -rf \
     /var/lib/apt \
     /var/cache/apt
 
-# Used to evaluate tpl config files
 RUN pip3 install \
     mkdocs \
     mkpdfs-mkdocs
+
 
 # Install dumb init
 ENV DUMB_INIT_VERSION 1.2.2
@@ -26,14 +44,17 @@ RUN wget -q https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VER
     chmod +x /usr/local/bin/dumb-init
 
 # Where to place Markdown-source and generated HTML files.
-RUN mkdir -p /mkdocs/css
-RUN mkdir -p /mkdocs/docs
-# VOLUME /mkdocs/docs
-# VOLUME /mkdocs/site
+RUN useradd --system --home /mkdocs web
+RUN mkdir -p /mkdocs/css \
+    && mkdir -p /mkdocs/docs
+
 COPY src/mkdocs.yml /mkdocs/mkdocs.yml
-COPY src/dead_urals.css /mkdocs/css/dead_urals.css
+COPY src/main.css /mkdocs/css/main.css
 COPY src/init.sh /mkdocs/init.sh
 
+RUN  chown -R web:web /mkdocs
+
+USER web
 WORKDIR /mkdocs
 EXPOSE 8000
 

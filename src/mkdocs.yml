@@ -1,4 +1,5 @@
 site_name: Awakening TTRPG Web-SRD
+dev_addr: 0.0.0.0:8000
 
 plugins:
     - search:
@@ -6,9 +7,14 @@ plugins:
         lang: ru
 #    - mkpdfs
 
+markdown_extensions:
+    - toc:
+        permalink: "#"
+        baselevel: 2
+
 theme:
   name: readthedocs
   custom_dir: css/
 
 extra_css:
-   - dead_urals.css
+   - main.css
