@@ -48,10 +48,9 @@ RUN useradd --system --home /mkdocs web
 RUN mkdir -p /mkdocs/css \
     && mkdir -p /mkdocs/docs
 
-COPY src/mkdocs.yml /mkdocs/mkdocs.yml
-COPY src/main.css /mkdocs/css/main.css
-COPY src/init.sh /mkdocs/init.sh
-COPY src/health.sh /usr/local/bin/health
+COPY src/conf /mkdocs
+COPY src/scripts /mkdocs
+COPY src/css /mkdocs/css
 
 RUN  chown -R web:web /mkdocs
 

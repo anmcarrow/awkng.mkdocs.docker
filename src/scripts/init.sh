@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 BASEDIR="/mkdocs"
 GIT_URI="https://github.com/anmcarrow/awkng.articles.git"
