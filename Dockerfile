@@ -44,8 +44,8 @@ RUN wget -q https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VER
     chmod +x /usr/local/bin/dumb-init
 
 # Where to place Markdown-source and generated HTML files.
-RUN useradd --system --home /mkdocs web
-RUN mkdir -p /mkdocs/css \
+RUN useradd --system --home /mkdocs web \
+    && mkdir -p /mkdocs/css \
     && mkdir -p /mkdocs/docs
 
 COPY src/conf /mkdocs
