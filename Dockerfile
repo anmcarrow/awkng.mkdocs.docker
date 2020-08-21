@@ -51,6 +51,7 @@ RUN mkdir -p /mkdocs/css \
 COPY src/mkdocs.yml /mkdocs/mkdocs.yml
 COPY src/main.css /mkdocs/css/main.css
 COPY src/init.sh /mkdocs/init.sh
+COPY src/health.sh /usr/local/bin/health
 
 RUN  chown -R web:web /mkdocs
 

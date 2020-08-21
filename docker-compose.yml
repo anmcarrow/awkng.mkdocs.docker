@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+   mkdocs:
+     image: anmcarrow/awkng-mkdocs:latest
+     volumes:
+       - doc_base:/mkdocs/docs
+     restart: always
+     ports:
+       - "127.0.0.1:8000:8000"
+volumes:
+    doc_base: {}
