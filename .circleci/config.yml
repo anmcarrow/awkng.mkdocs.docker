@@ -1,0 +1,67 @@
+version: 2
+
+jobs:
+
+  build-test-publish:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Login to the Docker Hub
+          command: docker login --username $DOCKER_LOGIN --password $DOCKER_PASS
+
+      - run:
+          name: Building the app image
+          command: docker build -t anmcarrow/awkng-mkdocs:$CIRCLE_BRANCH .
+
+      - run:
+          name: Execute the test run and content testing for app image
+          command: |
+            docker run --rm -d --expose 8000 -p 127.0.0.1:8000:8000 -P anmcarrow/awkng-mkdocs:$CIRCLE_BRANCH
+            src/scripts/health.sh
+
+      - run:
+          name: Upload the app image to the Docker Hub
+          command: docker push anmcarrow/awkng-mkdocs:$CIRCLE_BRANCH
+
+
+  deploy:
+    docker:
+      - image: anmcarrow/ssh-client:latest
+    steps:
+      - run:
+          name: Remote deploy the Docker-compose manifest
+          command: |
+            ssh -o StrictHostKeyChecking=no -t $SSH_USER@$SSH_HOST 'wget -O $HOME/docker-compose.yml https://raw.githubusercontent.com/anmcarrow/docker.awkng.mkdocs/master/docker-compose.yml'
+
+      - run:
+          name: Remote deploy fresh app image and recreating the Docker-container
+          command: |
+            ssh -o StrictHostKeyChecking=no -t $SSH_USER@$SSH_HOST 'docker-compose -f $HOME/docker-compose.yml pull'
+            ssh -o StrictHostKeyChecking=no -t $SSH_USER@$SSH_HOST 'docker-compose -f $HOME/docker-compose.yml up -d'
+
+      - run:
+          name: Remote testing health of the deployed app
+          command: |
+            sleep 15
+            wget -q -O- srd.awkng.su | grep -i 'mkdocs version'
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build-test-publish:
+          context: anmcarrow
+          filters:
+            branches:
+              only:
+                - dev
+                - master
+      - deploy:
+          requires:
+            - build-test-publish
+          context: anmcarrow
+          filters:
+            branches:
+              only:
+                - master
