@@ -2,6 +2,7 @@ version: '3.3'
 
 services:
    mkdocs:
+     container_name: awkng_srd
      image: anmcarrow/awkng-mkdocs:latest
      volumes:
        - doc_base:/mkdocs/docs
